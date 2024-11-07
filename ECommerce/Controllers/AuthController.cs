@@ -34,8 +34,7 @@ namespace ECommerce.Controllers
             {
                 Email=user.Email,
                 Token= _tokenService.GenerateToken(user.UserId.ToString()),
-                UserId=user.UserId,
-                Username=user.Username
+                UserId=user.UserId
             };
 
 

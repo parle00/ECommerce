@@ -18,10 +18,6 @@ namespace DataAccess.Repositories
             return await _context.Users.FindAsync(userId);
         }
 
-        public async Task<User> GetByUsernameAsync(string username)
-        {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
-        }
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
@@ -55,9 +51,9 @@ namespace DataAccess.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User> ValidateUserCredentialsAsync(string username, string password)
+        public async Task<User> ValidateUserCredentialsAsync(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
             if (user != null)
             {

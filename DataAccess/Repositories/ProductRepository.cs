@@ -1,4 +1,4 @@
-﻿using Core.Interfaces;
+﻿using Core.ProductInterfaces;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,7 +1,7 @@
 ﻿using Entities;
 
 
-namespace Core.Interfaces
+namespace Core.ProductInterfaces
 {
     public interface IProductService
     {

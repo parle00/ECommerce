@@ -1,7 +1,7 @@
 ﻿
 
 using Entities;
-using Core.Interfaces;
+using Core.ProductInterfaces;
 
 
 namespace Bussines.Services

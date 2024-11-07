@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Core.Interfaces;
 using DataAccess.Repositories;
 using DataAccess;
 using Bussines.Services;
 using Core.Services;
 using Core.UserInterfaces;
+using Core.ProductInterfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);

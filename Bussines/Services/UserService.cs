@@ -18,11 +18,6 @@ namespace Bussines.Services
             return await _userRepository.GetByIdAsync(userId);
         }
 
-        public async Task<User> GetUserByUsernameAsync(string username)
-        {
-            return await _userRepository.GetByUsernameAsync(username);
-        }
-
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _userRepository.GetAllAsync();
@@ -53,9 +48,9 @@ namespace Bussines.Services
             return await _userRepository.GetByEmailAsync(email);
         }
 
-        public async Task<User> ValidateUserAsync(string username, string password)
+        public async Task<User> ValidateUserAsync(string email, string password)
         {
-            return await _userRepository.ValidateUserCredentialsAsync(username, password);
+            return await _userRepository.ValidateUserCredentialsAsync(email, password);
         }
     }
 }
