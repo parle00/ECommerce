@@ -1,11 +1,9 @@
 ﻿using Core.Interfaces;
 using Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.Controllers
+namespace E_Commerce.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -17,15 +15,16 @@ namespace ECommerce.Controllers
             _productService = productService;
         }
 
-        [HttpGet("productGet")] // Route içindeki "/productGet" kısmını kaldırdım
-        public async Task<ActionResult<List<Product>>> GetAllProducts()
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
 
-        [HttpGet("productGet/{id}")] // Route içindeki "/productGet/{id}" kısmını kaldırdım
-        public async Task<ActionResult<Product>> GetProductById(int id)
+        [HttpGet("Get/{id}")]
+        public async Task<IActionResult> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
@@ -34,25 +33,28 @@ namespace ECommerce.Controllers
             return Ok(product);
         }
 
-        [HttpPost("productAdd")] // Route içindeki "/productAdd" kısmını kaldırdım
-        public async Task<ActionResult> AddProduct([FromBody] Product product) // [FromBody] ile body'den alınmasını sağlıyoruz
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddProduct([FromBody] Product product)
         {
             await _productService.AddProductAsync(product);
-            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+            return CreatedAtAction(nameof(GetProductById), new { id = product.ProductId }, product);
         }
 
-        [HttpPut("productUpdate/{id}")] // Route içindeki "/productUpdate/{id}" kısmını kaldırdım
-        public async Task<ActionResult> UpdateProduct(int id, [FromBody] Product product) // [FromBody] ile body'den alınmasını sağlıyoruz
+
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
         {
-            if (id != product.Id)
-                return BadRequest();
+            if (id != product.ProductId)
+                return BadRequest("ID mismatch");
 
             await _productService.UpdateProductAsync(product);
             return NoContent();
         }
 
-        [HttpDelete("productDelete/{id}")] // Route içindeki "/productDelete/{id}" kısmını kaldırdım
-        public async Task<ActionResult> DeleteProduct(int id)
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
         {
             await _productService.DeleteProductAsync(id);
             return NoContent();

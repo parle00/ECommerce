@@ -1,5 +1,7 @@
 ﻿using Bussines.Services;
 using Core.Services;
+using Core.DTOs.User;
+using Core.UserInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Controllers
@@ -10,23 +12,34 @@ namespace ECommerce.Controllers
     public class AuthController : ControllerBase
     {
         private readonly TokenService _tokenService; // Token üretimi için
+        private readonly IUserService _userService;
 
-        public AuthController(TokenService tokenService)
+        public AuthController(TokenService tokenService, IUserService userService)
         {
             _tokenService = tokenService;
+            _userService = userService;
         }
 
         [HttpPost("/Login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
 
-            if (request.Username == "string" && request.Password == "string") 
-            {
-                var token = _tokenService.GenerateToken("userId");
-                return Ok(new { Token = token });
-            }
+            var user = await _userService.ValidateUserAsync(request.Username, request.Password);
 
-            return Unauthorized();
+
+            if (user == null)
+                return Unauthorized();
+
+            var response = new UserLoginDTO()
+            {
+                Email=user.Email,
+                Token= _tokenService.GenerateToken(user.UserId.ToString()),
+                UserId=user.UserId,
+                Username=user.Username
+            };
+
+
+            return Ok(response);
         }
 
         public class LoginRequest

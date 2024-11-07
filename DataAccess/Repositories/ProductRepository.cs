@@ -13,14 +13,21 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<Product> GetByIdAsync(int productId)
+        {
+            return await _context.Products.FindAsync(productId);
+        }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<IEnumerable<Product>> GetByCategoryIdAsync(int categoryId)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products
+                                 .Where(p => p.CategoryId == categoryId)
+                                 .ToListAsync();
         }
 
         public async Task AddAsync(Product product)
@@ -35,9 +42,9 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int productId)
         {
-            var product = await GetByIdAsync(id);
+            var product = await _context.Products.FindAsync(productId);
             if (product != null)
             {
                 _context.Products.Remove(product);

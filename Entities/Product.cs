@@ -1,22 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Entities
+﻿namespace Entities
 {
     public class Product
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage ="Ad Zorunludur")]
+        public int ProductId { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public int StockQuantity { get; set; }
+        public int CategoryId { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        [Required(ErrorMessage = "Fiyat Zorunludur")]
-        public string Price { get; set; }
-
-        [AllowNull]
-        public string? Description { get; set; } 
     }
+
 }

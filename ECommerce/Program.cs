@@ -8,15 +8,16 @@ using DataAccess.Repositories;
 using DataAccess;
 using Bussines.Services;
 using Core.Services;
+using Core.UserInterfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Veritabaný baðlantýsýný yapýlandýr
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// JWT ayarlarýný yapýlandýr
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 
@@ -76,13 +77,15 @@ builder.Services.AddSwaggerGen(c =>
 
 
 builder.Services.AddScoped<TokenService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Product repository'i ekle
-builder.Services.AddScoped<IProductService, ProductService>(); // Product service'i ekle
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 var app = builder.Build();
 
-// HTTP istek boru hattýný yapýlandýr
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
